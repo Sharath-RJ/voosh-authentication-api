@@ -2,7 +2,8 @@ const express= require('express');
 const mongoose = require('mongoose')
 const dotenv = require('dotenv');
 const bodyparser=require('body-parser');
-const userRoutes =require('./routes/user-auth')
+const authRoutes =require('./routes/authRoute')
+const userRoutes = require('./routes/userRoute')
 dotenv.config()
 //initializing express application
 const app=express();
@@ -18,7 +19,10 @@ mongoose.connect(process.env.MONGODB_URL).then(()=>{
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:true}));
 
+//route handling
 
+app.use('/api/auth',authRoutes)
+app.use('/api/users',userRoutes)
 
 
 //server configuration
