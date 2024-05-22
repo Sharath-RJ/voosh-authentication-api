@@ -15,7 +15,7 @@ const userRegister = async (req, res) => {
       return res.status(409).json({ message: 'User already exists' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await userModel.create({
+     await userModel.create({
       name,
       email,
       password: hashedPassword,
