@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv');
 const bodyparser=require('body-parser');
 const authRoutes =require('./routes/authRoute')
-const userRoutes = require('./routes/userRoute')
+const userRoutes = require('./routes/userRoute');
+const googleAuthRoute = require('./routes/googleAuthRoute');
 dotenv.config()
 //initializing express application
 const app=express();
@@ -23,6 +24,8 @@ app.use(bodyparser.urlencoded({extended:true}));
 
 app.use('/api/auth',authRoutes)
 app.use('/api/users',userRoutes)
+app.use('/api/auth/google',googleAuthRoute)
+
 
 
 //server configuration

@@ -15,7 +15,7 @@ const updateProfile = async (req, res) => {
         if (req.file) updatedFields.profilePicture = req.file.path
 
         try {
-            const user = await User.findByIdAndUpdate(
+            const user = await userModel.findByIdAndUpdate(
                 req.user.id,
                 { $set: updatedFields },
                 { new: true }
@@ -25,6 +25,15 @@ const updateProfile = async (req, res) => {
             res.status(500).json({message:err.message})
         }
    
+}
+export const listPublicProfiles = async (req, res) => {
+    try {
+        const users = await userModel.find({ isPublic: true }).select("-password")
+        res.status(200).json(users)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Server error" })
+    }
 }
 
 module.exports = { getProfile, updateProfile }
