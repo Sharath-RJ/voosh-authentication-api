@@ -1,8 +1,8 @@
 const express = require("express")
 const router = express.Router()
 const authController = require("../controllers/authController")
-const validateUserRegister = require("../middleware/validateRegistration")
-const validateUserLogin = require("../middleware/validateLogin")
+const validateRequest = require("../middleware/validateRequest")
+const { registerSchema, loginSchema } = require("../validation/authValSchema")
 
 /**
  * @swagger
@@ -40,7 +40,7 @@ const validateUserLogin = require("../middleware/validateLogin")
  *       500:
  *         description: Server error
  */
-router.post("/register",validateUserRegister, authController.userRegister)
+router.post("/register",validateRequest(registerSchema), authController.userRegister)
 
 /**
  * @swagger
@@ -84,6 +84,6 @@ router.post("/register",validateUserRegister, authController.userRegister)
  *       500:
  *         description: Server error
  */
-router.post("/login",validateUserLogin, authController.userLogin)
+router.post("/login",validateRequest(loginSchema), authController.userLogin)
 
 module.exports = router
