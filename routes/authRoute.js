@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const authController = require("../controllers/authController")
 const validateUserRegister = require("../middleware/validateRegistration")
+const validateUserLogin = require("../middleware/validateLogin")
 
 /**
  * @swagger
@@ -83,6 +84,6 @@ router.post("/register",validateUserRegister, authController.userRegister)
  *       500:
  *         description: Server error
  */
-router.post("/login", authController.userLogin)
+router.post("/login",validateUserLogin, authController.userLogin)
 
 module.exports = router
