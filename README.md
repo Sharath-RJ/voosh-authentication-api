@@ -60,23 +60,31 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 
 ## API End Points
 
-# Authentication
+ Authentication
 
-POST /auth/register :Register a new user
-POST /auth/login  :Log in a user
+POST /auth/register : Register a new user
 
-# GOOGLE
+POST /auth/login  : Log in a user
+
+ GOOGLE
 GET /google : Log in with google
+
 GET /google/callback :Google OAuth Callback
 
-#  USERS
+  USERS
 
 GET /users/getProfile :Get the profile of loogined in user
+
 PUT /users/updateProfile :Update teh profile of the loged in user
+
 GET /users/allPublicUsers :Get a list of public user porfile
+
 GET /users/allUsers :Get a list of all user profiles (admin only)
+
 GET /users/updatePassword : Update user password
+
 GET /users/logout :Logout the user
+
 
 ## Error Handling
 Proper error messages and HTTP status codes are returned for various error scenarios such as validation errors, authentication errors, and authorization errors.
