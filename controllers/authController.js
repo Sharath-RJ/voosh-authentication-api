@@ -1,69 +1,10 @@
 const userModel = require("../models/userModel")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const dotenv= require("dotenv")
+dotenv.config()
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     User:
- *       type: object
- *       required:
- *         - name
- *         - email
- *         - password
- *         - phone
- *       properties:
- *         name:
- *           type: string
- *         email:
- *           type: string
- *         password:
- *           type: string
- *           format: password
- *         phone:
- *           type: string
- */
 
-/**
- * @swagger
- * /api/auth/register:
- *   post:
- *     summary: Register a new user
- *     tags: [Authentication]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *                 format: password
- *               phone:
- *                 type: string
- *     responses:
- *       201:
- *         description: User Registered Successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *       400:
- *         description: All fields are required
- *       409:
- *         description: User already exists
- *       500:
- *         description: Server error
- */
 const userRegister = async (req, res) => {
     const { name, email, password, phone } = req.body
 
@@ -90,45 +31,6 @@ const userRegister = async (req, res) => {
     }
 }
 
-/**
- * @swagger
- * /api/auth/login:
- *   post:
- *     summary: Log in a user
- *     tags: [Authentication]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *                 format: password
- *     responses:
- *       200:
- *         description: User logged in successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 result:
- *                   $ref: '#/components/schemas/User'
- *                 token:
- *                   type: string
- *       400:
- *         description: All fields are required
- *       404:
- *         description: User not found
- *       401:
- *         description: Invalid credentials
- *       500:
- *         description: Server error
- */
 const userLogin = async (req, res) => {
     const { email, password } = req.body
 
@@ -149,7 +51,7 @@ const userLogin = async (req, res) => {
         }
         const token = jwt.sign(
             { email: existingUser.email, id: existingUser._id },
-            "test",
+            process.env.JWT_SECRET,
             { expiresIn: "1h" }
         )
         res.status(200).json({ result: existingUser, token })

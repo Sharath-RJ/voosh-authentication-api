@@ -8,10 +8,15 @@ const googleAuthRoute = require("./routes/googleAuthRoute")
 const passport = require("passport")
 const GoogleStrategy = require("passport-google-oauth20").Strategy
 const setupSwagger = require("./config/swager")
+const cors = require('cors')
 
 dotenv.config()
 
 const app = express()
+
+
+// Enable CORS
+app.use(cors());
 
 // Connnecting to MongoDB database
 
@@ -28,7 +33,9 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // Initialize Passport.js
+
 app.use(passport.initialize())
+
 
 // Routes
 app.use("/api/auth", authRoutes)

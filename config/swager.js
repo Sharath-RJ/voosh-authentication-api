@@ -1,7 +1,5 @@
-// swagger.js
 const swaggerJsdoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express")
-
 
 const options = {
     definition: {
@@ -15,8 +13,22 @@ const options = {
                 url: `http://localhost:3000`,
             },
         ],
+        components: {
+            securitySchemes: {
+                BearerAuth: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT",
+                },
+            },
+        },
+        security: [
+            {
+                BearerAuth: [],
+            },
+        ],
     },
-    apis: ["controllers/*.js"],
+    apis: ["routes/*.js"],
 }
 
 const swaggerSpec = swaggerJsdoc(options)
