@@ -67,6 +67,7 @@ POST /auth/register : Register a new user
 POST /auth/login  : Log in a user
 
  GOOGLE
+ 
 GET /google : Log in with google
 
 GET /google/callback :Google OAuth Callback
