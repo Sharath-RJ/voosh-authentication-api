@@ -4,6 +4,7 @@ const userController = require('../controllers/userController');
 const auth= require("../middleware/auth")
 const upload=require("../middleware/multer");
 const isAdmin = require('../middleware/admin');
+
 /**
  * @swagger
  * components:
