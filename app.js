@@ -7,20 +7,21 @@ const userRoutes = require("./routes/userRoute")
 const googleAuthRoute = require("./routes/googleAuthRoute")
 const passport = require("passport")
 const GoogleStrategy = require("passport-google-oauth20").Strategy
+const setupSwagger = require("./config/swager")
 
 dotenv.config()
 
 const app = express()
 
 // Connnecting to MongoDB database
-mongoose
-    .connect(process.env.MONGODB_URL)
-    .then(() => {
+
+mongoose.connect(process.env.MONGODB_URL).then(() => {
         console.log("Connected to MongoDB")
     })
     .catch((error) => {
-        console.log("Unable to connect to MongoDB", error)
+        console.error("Error connecting to MongoDB:", error)
     })
+
 
 // Using middleware
 app.use(bodyParser.json())
@@ -42,13 +43,15 @@ passport.use(
             clientSecret: process.env.CLIENT_SECRET,
             callbackURL: `http://localhost:${process.env.PORT}/api/google/google/callback`,
         },
-        (accessToken, refreshToken, profile, done) => {
+        ( profile, done) => {
             console.log("Google profile:", profile)
             return done(null, profile)
         }
     )
 )
+//swagger confid
 
+setupSwagger(app)
 // Server configuration
 const PORT = process.env.PORT || 5000
 
