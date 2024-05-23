@@ -144,6 +144,42 @@ router.get("/allUsers", isAdmin, userController.listAllUsers)
  */
 
 router.get("/logout",auth, userController.logoutUser)
+/**
+ * @swagger
+ * /api/users/updatePassword:
+ *   put:
+ *     summary: Update user password
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - oldPassword
+ *               - newPassword
+ *             properties:
+ *               oldPassword:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password updated successfully
+ *       400:
+ *         description: All fields are required
+ *       401:
+ *         description: Invalid credentials
+ *       500:
+ *         description: Server error
+ */
+
+
+
+router.put("/updatePassword",auth, userController.updatePassword)
 
 module.exports = router
 

@@ -1,4 +1,5 @@
 const userModel = require("../models/userModel")
+const bcrypt = require("bcryptjs")
 
 
 const getProfile = async (req, res) => {
@@ -61,10 +62,30 @@ const logoutUser = async (req, res) => {
     res.status(200).json({ message: "Logout successful" })
 }
 
+const updatePassword= async (req, res) => {
+    const { oldPassword, newPassword } = req.body
+    if (!oldPassword || !newPassword) {
+        return res.status(400).json({ message: "All fields are required" })
+    }
+    try {
+        const user = await userModel.findById(req.user.id)
+        const isMatch = await bcrypt.compare(oldPassword, user.password)
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid credentials" })
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 10)
+        await userModel.findByIdAndUpdate(req.user.id, { password: hashedPassword })
+        res.status(200).json({ message: "Password updated successfully" })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 module.exports = {
     getProfile,
     updateProfile,
     listPublicProfiles,
     logoutUser,
     listAllUsers,
+    updatePassword,
 }

@@ -9,6 +9,7 @@ const passport = require("passport")
 const GoogleStrategy = require("passport-google-oauth20").Strategy
 const setupSwagger = require("./config/swager")
 const cors = require('cors')
+const errorHandler= require('./middleware/errorhandling')
 
 dotenv.config()
 
@@ -31,6 +32,10 @@ mongoose.connect(process.env.MONGODB_URL).then(() => {
 // Using middleware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+//error handling middleware
+
+app.use(errorHandler)
 
 // Initialize Passport.js
 
