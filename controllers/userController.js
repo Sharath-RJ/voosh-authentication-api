@@ -26,7 +26,7 @@ const updateProfile = async (req, res) => {
         }
    
 }
-export const listPublicProfiles = async (req, res) => {
+const listPublicProfiles = async (req, res) => {
     try {
         const users = await userModel.find({ isPublic: true }).select("-password")
         res.status(200).json(users)
@@ -36,4 +36,19 @@ export const listPublicProfiles = async (req, res) => {
     }
 }
 
-module.exports = { getProfile, updateProfile }
+ const listAllUsers = async (req, res) => {
+    try {
+        const users = await userModel.find().select("-password")
+        res.status(200).json(users)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Server error" })
+    }
+}
+
+const logoutUser = async (req, res) => {
+    
+    res.status(200).json({ message: "Logout successful" })
+}
+
+module.exports = { getProfile, updateProfile,listPublicProfiles, logoutUser, listAllUsers }
